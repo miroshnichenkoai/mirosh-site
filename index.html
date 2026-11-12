@@ -69,7 +69,7 @@
   .eyebrow b { font-weight: 700; margin-right: 6px; }
 
   /* Header */
-  header { position: sticky; top: 0; z-index: 10; background: var(--paper); background: color-mix(in srgb, var(--paper) 90%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  header { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--line); }
   header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
   .logo { font-family: var(--serif); font-weight: 600; font-size: 24px; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; }
   .logo em { color: var(--accent); }
@@ -497,10 +497,19 @@
       });
     });
 
-    window.addEventListener("scroll", check, { passive: true });
-    window.addEventListener("resize", check);
-    window.addEventListener("load", check);
-    document.querySelectorAll(".samples").forEach(function (strip) { strip.addEventListener("scroll", check, { passive: true }); });
+    // Scroll fires many times per frame; measure at most once per frame.
+    var scheduled = false;
+    function schedule() {
+      if (scheduled) return;
+      scheduled = true;
+      window.requestAnimationFrame(function () { scheduled = false; check(); });
+    }
+
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    window.addEventListener("load", schedule);
+    document.addEventListener("visibilitychange", schedule);
+    document.querySelectorAll(".samples").forEach(function (strip) { strip.addEventListener("scroll", schedule, { passive: true }); });
     check();
   })();
 </script>
