@@ -4,102 +4,361 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mirosh Labs - clips from your podcast episodes</title>
-<meta name="description" content="Short clips for LinkedIn and YouTube Shorts from your B2B video podcast. Free pilot: 3 clips in 48 hours.">
+<meta name="description" content="Short clips for LinkedIn and YouTube Shorts from your B2B video podcast, with captions that follow the speaker. Free pilot: 3 clips in 48 hours.">
 <style>
-  :root { --bg: #ffffff; --fg: #1f2328; --muted: #59636e; --line: #d1d9e0; --accent: #3b2f8f; --card: #f6f8fa; }
+  :root {
+    --bg: #fbfaf7; --bg-2: #f2f0ea; --fg: #17151f; --muted: #5d5a68; --line: #e2dfd6;
+    --card: #ffffff; --accent: #4b3bd6; --accent-fg: #ffffff; --hl: #f5b800; --phone: #0f0e14;
+    --shadow: 0 18px 50px rgba(23, 21, 31, 0.14);
+  }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #111418; --fg: #e6e8eb; --muted: #9aa4af; --line: #2d333b; --accent: #a99cff; --card: #191d23; }
+    :root:not([data-theme="light"]) {
+      --bg: #0e0d13; --bg-2: #15141c; --fg: #f1eff8; --muted: #a4a0b5; --line: #2a2835;
+      --card: #17161f; --accent: #8f82ff; --accent-fg: #0e0d13; --hl: #ffd84d; --phone: #000000;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e0d13; --bg-2: #15141c; --fg: #f1eff8; --muted: #a4a0b5; --line: #2a2835;
+    --card: #17161f; --accent: #8f82ff; --accent-fg: #0e0d13; --hl: #ffd84d; --phone: #000000;
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
-  main { max-width: 860px; margin: 0 auto; padding: 48px 16px 72px; }
-  h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.15; margin: 0 0 16px; }
-  h2 { font-size: 22px; margin: 48px 0 12px; }
-  p { margin: 0 0 12px; }
-  .lead { font-size: 20px; color: var(--muted); max-width: 640px; }
-  .cta { display: inline-block; margin-top: 12px; padding: 12px 20px; border-radius: 10px; background: var(--accent); color: #fff; text-decoration: none; font-weight: 600; }
-  ol, ul { padding-left: 22px; }
-  li { margin-bottom: 8px; }
-  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
-  .plan { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
-  .plan h3 { margin: 0 0 4px; font-size: 18px; }
-  .price { font-size: 26px; font-weight: 700; margin: 6px 0 10px; }
-  .samples { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-  .samples video { width: 100%; border-radius: 10px; background: #000; }
-  .muted { color: var(--muted); font-size: 15px; }
-  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
   a { color: var(--accent); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  section { padding: 72px 0; }
+  h1 { font-size: clamp(34px, 6vw, 58px); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 20px; }
+  h2 { font-size: clamp(26px, 3.6vw, 38px); line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 14px; }
+  h3 { margin: 0 0 6px; font-size: 19px; }
+  p { margin: 0 0 12px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 14px; }
+  .eyebrow { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+
+  /* Header */
+  header { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .logo { font-weight: 800; letter-spacing: -0.01em; color: var(--fg); text-decoration: none; font-size: 18px; }
+  .logo span { color: var(--accent); }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 999px; background: var(--accent); color: var(--accent-fg); text-decoration: none; font-weight: 700; border: 0; cursor: pointer; font-size: 16px; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px color-mix(in srgb, var(--accent) 35%, transparent); }
+  .btn.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+  .btn.small { padding: 9px 16px; font-size: 14px; }
+
+  /* Hero */
+  .hero { padding: 56px 0 40px; }
+  .hero .grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; }
+  .hero .lead { font-size: 20px; color: var(--muted); max-width: 560px; margin-bottom: 26px; }
+  .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 0; margin: 0; list-style: none; font-size: 15px; color: var(--muted); }
+  .facts li::before { content: "●"; color: var(--hl); margin-right: 8px; font-size: 11px; vertical-align: 2px; }
+  .say { transition: color 0.2s ease; }
+  .say.on { color: var(--hl); }
+
+  /* Phone */
+  .phone { position: relative; width: min(300px, 78vw); margin: 0 auto; border-radius: 42px; background: var(--phone); padding: 11px; box-shadow: var(--shadow); }
+  .phone::before { content: ""; position: absolute; top: 18px; left: 50%; width: 30%; height: 18px; transform: translateX(-50%); background: #000; border-radius: 12px; z-index: 2; }
+  .phone video, .phone img { width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 32px; display: block; background: #111; }
+  .sound { position: absolute; right: 22px; top: 46px; z-index: 3; border: 0; border-radius: 999px; padding: 7px 12px; font-weight: 700; font-size: 13px; background: rgba(0, 0, 0, 0.6); color: #fff; cursor: pointer; backdrop-filter: blur(6px); }
+  .hero .phone { animation: float 6s ease-in-out infinite; }
+  @keyframes float { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-10px) rotate(-0.5deg); } }
+
+  /* Episode to clips */
+  .band { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .timeline { position: relative; margin: 34px 0 16px; height: 64px; border-radius: 14px; background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--muted) 22%, transparent) 0 2px, transparent 2px 9px); border: 1px solid var(--line); overflow: hidden; }
+  .timeline .seg { position: absolute; top: 0; bottom: 0; background: var(--hl); border-radius: 4px; opacity: 0.25; animation: pick 6s ease-in-out infinite; }
+  .timeline .seg:nth-child(2) { animation-delay: 1s; }
+  .timeline .seg:nth-child(3) { animation-delay: 2s; }
+  @keyframes pick { 0%, 10% { opacity: 0.2; transform: scaleY(0.7); } 25%, 80% { opacity: 1; transform: scaleY(1); } 100% { opacity: 0.2; transform: scaleY(0.7); } }
+  .timeline .scan { position: absolute; top: 0; bottom: 0; width: 3px; background: var(--accent); animation: scan 6s linear infinite; }
+  @keyframes scan { from { left: 0; } to { left: 100%; } }
+  .scale { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .moments { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 22px; }
+  .moment { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+  .moment b { display: block; font-size: 13px; color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* Samples */
+  .samples { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 30px; }
+  .sample .phone { width: 100%; max-width: 270px; border-radius: 36px; padding: 9px; }
+  .sample .phone video { border-radius: 28px; }
+  .sample p { text-align: center; margin-top: 14px; font-weight: 600; }
+
+  /* Steps and features */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 28px; counter-reset: step; }
+  .step { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+  .step::before { counter-increment: step; content: counter(step); display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: var(--accent-fg); font-weight: 800; margin-bottom: 12px; }
+  .features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 28px; margin-top: 26px; padding: 0; list-style: none; }
+  .features li { padding-left: 34px; position: relative; }
+  .features li::before { content: "✓"; position: absolute; left: 0; top: 1px; width: 22px; height: 22px; border-radius: 50%; background: color-mix(in srgb, var(--hl) 30%, transparent); color: var(--fg); display: grid; place-items: center; font-size: 13px; font-weight: 800; }
+
+  /* Pricing */
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 28px; align-items: stretch; }
+  .plan { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 24px; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .plan:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .plan.featured { border: 2px solid var(--accent); }
+  .plan ul { padding-left: 20px; margin: 10px 0 0; }
+  .plan li { margin-bottom: 6px; }
+  .price { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; margin: 6px 0 4px; }
+  .price span { font-size: 15px; font-weight: 600; color: var(--muted); }
+  .offer { margin-top: 22px; padding: 18px 20px; border-radius: 16px; background: color-mix(in srgb, var(--hl) 18%, var(--card)); border: 1px solid color-mix(in srgb, var(--hl) 50%, var(--line)); }
+
+  /* FAQ and CTA */
+  details { border-bottom: 1px solid var(--line); padding: 16px 0; }
+  summary { cursor: pointer; font-weight: 700; font-size: 18px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--accent); font-size: 22px; line-height: 1; transition: transform 0.2s ease; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { margin: 10px 0 0; color: var(--muted); }
+  .cta-band { text-align: center; }
+  .cta-band .lead { color: var(--muted); max-width: 560px; margin: 0 auto 24px; font-size: 19px; }
+  footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 22px; justify-content: space-between; }
+
+  /* Reveal on scroll */
+  .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .js .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 860px) {
+    section { padding: 56px 0; }
+    .hero .grid { grid-template-columns: 1fr; gap: 36px; }
+    .samples, .steps, .plans, .moments { grid-template-columns: 1fr; }
+    .features { grid-template-columns: 1fr; }
+    .sample .phone { max-width: 260px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero .phone, .timeline .seg, .timeline .scan { animation: none; }
+    .js .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <h1>Your episodes, cut into clips people actually watch</h1>
-  <p class="lead">You record a great conversation every week. I turn each episode into short clips for LinkedIn,
-  YouTube Shorts and Reels. You send a link, you get ready-to-post clips back. No new tool to learn.</p>
-  <a class="cta" href="mailto:miroshart@outlook.com?subject=Free%20clips%20for%20my%20podcast">Get 3 free clips</a>
-
-  <h2>How it works</h2>
-  <ol>
-    <li><strong>Send an episode.</strong> A link to the video or the file.</li>
-    <li><strong>I pick the moments.</strong> AI helps me find candidates faster, but every clip is chosen and edited by me: a clear point, a strong first line, a clean ending.</li>
-    <li><strong>You get the clips in 48 hours.</strong> Captions burned in, vertical and square versions, a title for each. One round of changes included.</li>
-  </ol>
-
-  <h2>Samples</h2>
-  <p class="muted">Made from a public panel recording, not a client: "Open For Whom?" by Internet Archive &amp; Authors Alliance, licensed CC BY 4.0.</p>
-  <div class="samples">
-    <video src="samples/clip-01-vertical.mp4" controls preload="metadata" playsinline></video>
-    <video src="samples/clip-02-vertical.mp4" controls preload="metadata" playsinline></video>
-    <video src="samples/clip-03-vertical.mp4" controls preload="metadata" playsinline></video>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top">Mirosh <span>Labs</span></a>
+    <a class="btn small" href="mailto:miroshart@outlook.com?subject=Free%20clips%20for%20my%20podcast">Get 3 free clips</a>
   </div>
+</header>
 
-  <h2>Start with a free pilot</h2>
-  <p>Pick one recent episode, or I suggest one. You get 3 clips in 48 hours, free. Use them as you like.
-  If they're not useful, that's the end of it.</p>
+<main id="top">
+  <section class="hero">
+    <div class="wrap grid">
+      <div>
+        <div class="eyebrow">Clips for B2B video podcasts</div>
+        <h1 id="headline">Your episodes, cut into clips people actually watch</h1>
+        <p class="lead">You record a great conversation every week. I turn each episode into short clips for LinkedIn,
+        YouTube Shorts and Reels. You send a link, you get ready-to-post clips back. No new tool to learn.</p>
+        <div class="actions">
+          <a class="btn" href="mailto:miroshart@outlook.com?subject=Free%20clips%20for%20my%20podcast">Get 3 free clips</a>
+          <a class="btn ghost" href="#samples">See samples</a>
+        </div>
+        <ul class="facts">
+          <li>Back in 48 hours</li>
+          <li>Captions that follow the speaker</li>
+          <li>Vertical and square</li>
+        </ul>
+      </div>
+      <div>
+        <div class="phone">
+          <video src="samples/clip-01-vertical.mp4" poster="samples/clip-01-vertical.jpg" muted loop playsinline preload="metadata" data-autoplay aria-label="Sample clip: Authors' anger isn't at AI. It's at plutocrats."></video>
+          <button class="sound" type="button" aria-label="Turn sound on">Sound off</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <h2>Pricing</h2>
-  <div class="plans">
-    <div class="plan">
-      <h3>One episode</h3>
-      <div class="price">EUR 150<span class="muted"> / episode</span></div>
-      <ul>
-        <li>4 clips from one episode</li>
-        <li>Vertical and square, with captions</li>
-        <li>No subscription</li>
+  <section class="band">
+    <div class="wrap reveal">
+      <div class="eyebrow">From one episode</div>
+      <h2>An hour of conversation, three clips worth sharing</h2>
+      <p class="muted">The sample panel runs 61 minutes. These three moments make one clear point each, start with a strong line and end cleanly.</p>
+      <div class="timeline" aria-hidden="true">
+        <div class="seg" style="left: 60.5%; width: 1.2%"></div>
+        <div class="seg" style="left: 70.9%; width: 1.9%"></div>
+        <div class="seg" style="left: 74.1%; width: 1.5%"></div>
+        <div class="scan"></div>
+      </div>
+      <div class="scale" aria-hidden="true"><span>0:00</span><span>15:00</span><span>30:00</span><span>45:00</span><span>61:00</span></div>
+      <div class="moments">
+        <div class="moment"><b>36:52 · 36 s</b>Authors' anger isn't at AI. It's at plutocrats.</div>
+        <div class="moment"><b>43:11 · 70 s</b>Knowledge isn't water: extraction vs. openness</div>
+        <div class="moment"><b>45:08 · 55 s</b>We don't ban FedEx from public roads. Why ban AI?</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="samples">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Samples</div>
+        <h2>What you get back</h2>
+        <p class="muted">Made from a public panel recording, not a client: "Open For Whom?" by Internet Archive &amp; Authors Alliance, licensed CC BY 4.0.
+        The word being said lights up, and the frame is filled with a blurred copy of the video, so nothing looks empty.</p>
+      </div>
+      <div class="samples">
+        <div class="sample reveal">
+          <div class="phone">
+            <video src="samples/clip-01-vertical.mp4" poster="samples/clip-01-vertical.jpg" muted loop playsinline preload="none" data-autoplay aria-label="Sample clip 1"></video>
+            <button class="sound" type="button" aria-label="Turn sound on">Sound off</button>
+          </div>
+          <p>Authors' anger isn't at AI</p>
+        </div>
+        <div class="sample reveal">
+          <div class="phone">
+            <video src="samples/clip-02-vertical.mp4" poster="samples/clip-02-vertical.jpg" muted loop playsinline preload="none" data-autoplay aria-label="Sample clip 2"></video>
+            <button class="sound" type="button" aria-label="Turn sound on">Sound off</button>
+          </div>
+          <p>Knowledge isn't water</p>
+        </div>
+        <div class="sample reveal">
+          <div class="phone">
+            <video src="samples/clip-03-vertical.mp4" poster="samples/clip-03-vertical.jpg" muted loop playsinline preload="none" data-autoplay aria-label="Sample clip 3"></video>
+            <button class="sound" type="button" aria-label="Turn sound on">Sound off</button>
+          </div>
+          <p>Why ban AI from public roads?</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">How it works</div>
+        <h2>Three steps, no new tool</h2>
+      </div>
+      <div class="steps">
+        <div class="step reveal"><h3>Send an episode</h3><p class="muted">A link to the video or the file. That's all I need.</p></div>
+        <div class="step reveal"><h3>I pick the moments</h3><p class="muted">AI helps me find candidates faster, but every clip is chosen and edited by me: a clear point, a strong first line, a clean ending.</p></div>
+        <div class="step reveal"><h3>Clips in 48 hours</h3><p class="muted">Ready to post, with one round of changes included. Approve them with one reply.</p></div>
+      </div>
+      <ul class="features reveal">
+        <li>Captions that light up the word being said, checked by hand for names and terms</li>
+        <li>A hook title on every clip</li>
+        <li>Vertical 9:16 for Shorts and Reels, square 1:1 for LinkedIn</li>
+        <li>Your colours and logo, set once</li>
       </ul>
     </div>
-    <div class="plan">
-      <h3>Clips</h3>
-      <div class="price">EUR 500<span class="muted"> / month</span></div>
-      <ul>
-        <li>Up to 4 episodes a month</li>
-        <li>4 clips per episode</li>
-        <li>Vertical and square, with captions</li>
-      </ul>
-    </div>
-    <div class="plan">
-      <h3>Clips + LinkedIn</h3>
-      <div class="price">EUR 800<span class="muted"> / month</span></div>
-      <ul>
-        <li>Up to 4 episodes a month</li>
-        <li>6 clips per episode</li>
-        <li>A ready LinkedIn post for each clip</li>
-      </ul>
-    </div>
-  </div>
-  <p class="muted">Monthly plans are month to month, cancel any time.</p>
-  <p><strong>Launch offer:</strong> for my first 3 clients, the first month of Clips is EUR 250 instead of EUR 500,
-  in exchange for a short testimonial and permission to show your clips as examples.</p>
+  </section>
 
-  <h2>Fair questions</h2>
-  <p><strong>Why not an auto-clipping tool?</strong> Tools find loud moments. They don't know your audience, so you still
-  spend an hour picking, fixing captions and writing posts. That hour is what I take off you.</p>
-  <p><strong>Who owns the clips?</strong> You do. I use your episodes only to make your clips.</p>
-  <p><strong>Who is behind this?</strong> Artem Miroshnichenko, an engineer running a small studio in Paris.</p>
+  <section>
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Start free</div>
+        <h2>3 clips from one episode, free</h2>
+        <p class="muted">Pick one recent episode, or I suggest one. You get 3 clips in 48 hours. Use them as you like. If they're not useful, that's the end of it.</p>
+      </div>
+      <div class="plans">
+        <div class="plan reveal">
+          <h3>One episode</h3>
+          <div class="price">EUR 150 <span>/ episode</span></div>
+          <ul><li>4 clips from one episode</li><li>Vertical and square, with captions</li><li>No subscription</li></ul>
+        </div>
+        <div class="plan featured reveal">
+          <h3>Clips</h3>
+          <div class="price">EUR 500 <span>/ month</span></div>
+          <ul><li>Up to 4 episodes a month</li><li>4 clips per episode</li><li>Vertical and square, with captions</li></ul>
+        </div>
+        <div class="plan reveal">
+          <h3>Clips + LinkedIn</h3>
+          <div class="price">EUR 800 <span>/ month</span></div>
+          <ul><li>Up to 4 episodes a month</li><li>6 clips per episode</li><li>A ready LinkedIn post for each clip</li></ul>
+        </div>
+      </div>
+      <div class="offer reveal">
+        <strong>Launch offer:</strong> for my first 3 clients, the first month of Clips is EUR 250 instead of EUR 500,
+        in exchange for a short testimonial and permission to show your clips as examples.
+      </div>
+      <p class="muted small" style="margin-top: 12px">Monthly plans are month to month, cancel any time.</p>
+    </div>
+  </section>
 
-  <footer>
-    Mirosh Labs · Paris, France · <a href="mailto:miroshart@outlook.com">miroshart@outlook.com</a> · <a href="privacy.html">Privacy</a>
-  </footer>
+  <section class="band">
+    <div class="wrap reveal">
+      <div class="eyebrow">Fair questions</div>
+      <details><summary>Why not an auto-clipping tool?</summary><p>Tools find loud moments. They don't know your audience, so you still spend an hour picking, fixing captions and writing posts. That hour is what I take off you.</p></details>
+      <details><summary>Who owns the clips?</summary><p>You do. I use your episodes only to make your clips.</p></details>
+      <details><summary>What do you need from me?</summary><p>A link to each new episode, and your brand colours and logo once.</p></details>
+      <details><summary>Who is behind this?</summary><p>Artem Miroshnichenko, an engineer running a small studio in Paris.</p></details>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap reveal">
+      <h2>Send one episode, see what comes back</h2>
+      <p class="lead">3 clips in 48 hours, free. No call needed.</p>
+      <a class="btn" href="mailto:miroshart@outlook.com?subject=Free%20clips%20for%20my%20podcast">Get 3 free clips</a>
+    </div>
+  </section>
 </main>
+
+<footer>
+  <div class="wrap">
+    <span>Mirosh Labs · Paris, France · <a href="mailto:miroshart@outlook.com">miroshart@outlook.com</a> · <a href="privacy.html">Privacy</a></span>
+    <span>Samples: "Open For Whom?" by Internet Archive &amp; Authors Alliance, CC BY 4.0</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Headline words light up one by one, like the captions in the clips.
+    var headline = document.getElementById("headline");
+    if (headline && !reduce) {
+      var words = headline.textContent.split(" ");
+      headline.innerHTML = words.map(function (w) { return '<span class="say">' + w + "</span>"; }).join(" ");
+      var spans = headline.querySelectorAll(".say");
+      var i = 0;
+      setInterval(function () {
+        spans.forEach(function (s) { s.classList.remove("on"); });
+        if (i < spans.length) spans[i].classList.add("on");
+        i = (i + 1) % (spans.length + 4);
+      }, 420);
+    }
+
+    // Fade sections in and play clips muted while they are on screen. Checked on scroll, so it works everywhere.
+    document.documentElement.classList.add("js");
+    var reveals = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+    var videos = Array.prototype.slice.call(document.querySelectorAll("video[data-autoplay]"));
+    function visibleShare(el) {
+      var r = el.getBoundingClientRect();
+      var h = window.innerHeight || document.documentElement.clientHeight;
+      var shown = Math.min(r.bottom, h) - Math.max(r.top, 0);
+      return r.height > 0 ? shown / r.height : 0;
+    }
+    function check() {
+      reveals = reveals.filter(function (el) {
+        if (visibleShare(el) > 0.1 || el.getBoundingClientRect().top < 0) { el.classList.add("in"); return false; }
+        return true;
+      });
+      if (reduce) return;
+      videos.forEach(function (v) {
+        if (visibleShare(v) >= 0.5) { if (v.paused) v.play().catch(function () {}); } else if (!v.paused) { v.pause(); }
+      });
+    }
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    window.addEventListener("load", check);
+    check();
+
+    document.querySelectorAll(".sound").forEach(function (button) {
+      var video = button.parentElement.querySelector("video");
+      button.addEventListener("click", function () {
+        var turnOn = video.muted;
+        videos.forEach(function (v) { v.muted = true; });
+        document.querySelectorAll(".sound").forEach(function (b) { b.textContent = "Sound off"; b.setAttribute("aria-label", "Turn sound on"); });
+        if (turnOn) {
+          video.muted = false;
+          video.play().catch(function () {});
+          button.textContent = "Sound on";
+          button.setAttribute("aria-label", "Turn sound off");
+        }
+      });
+    });
+  })();
+</script>
 </body>
 </html>
