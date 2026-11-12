@@ -5,23 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mirosh Labs - clips from your podcast episodes</title>
 <meta name="description" content="Short clips for LinkedIn and YouTube Shorts from your B2B video podcast, with captions that follow the speaker. Free pilot: 3 clips in 48 hours.">
+<link rel="canonical" href="https://mirosh.fr/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mirosh.fr/">
+<meta property="og:title" content="Mirosh Labs - clips from your podcast episodes">
+<meta property="og:description" content="Short clips for LinkedIn and YouTube Shorts from your B2B video podcast. Free pilot: 3 clips in 48 hours.">
+<meta property="og:image" content="https://mirosh.fr/samples/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234b3bd6'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='700' font-size='34' text-anchor='middle' fill='%23ffd84d'%3EM%3C/text%3E%3C/svg%3E">
 <style>
   :root {
     --bg: #fbfaf7; --bg-2: #f2f0ea; --fg: #17151f; --muted: #5d5a68; --line: #e2dfd6;
     --card: #ffffff; --accent: #4b3bd6; --accent-fg: #ffffff; --hl: #f5b800; --phone: #0f0e14;
+    --say-text: #17151f; --say-mark: #ffd84d;
     --shadow: 0 18px 50px rgba(23, 21, 31, 0.14);
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --bg: #0e0d13; --bg-2: #15141c; --fg: #f1eff8; --muted: #a4a0b5; --line: #2a2835;
       --card: #17161f; --accent: #8f82ff; --accent-fg: #0e0d13; --hl: #ffd84d; --phone: #000000;
-      --shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.5); --say-text: #ffd84d; --say-mark: transparent;
     }
   }
   :root[data-theme="dark"] {
     --bg: #0e0d13; --bg-2: #15141c; --fg: #f1eff8; --muted: #a4a0b5; --line: #2a2835;
     --card: #17161f; --accent: #8f82ff; --accent-fg: #0e0d13; --hl: #ffd84d; --phone: #000000;
-    --shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.5); --say-text: #ffd84d; --say-mark: transparent;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -54,14 +63,19 @@
   .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }
   .facts { display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 0; margin: 0; list-style: none; font-size: 15px; color: var(--muted); }
   .facts li::before { content: "●"; color: var(--hl); margin-right: 8px; font-size: 11px; vertical-align: 2px; }
-  .say { transition: color 0.2s ease; }
-  .say.on { color: var(--hl); }
+  .say { transition: color 0.2s ease, background-color 0.2s ease; border-radius: 6px; }
+  .say.on { color: var(--say-text); background: var(--say-mark); }
 
   /* Phone */
   .phone { position: relative; width: min(300px, 78vw); margin: 0 auto; border-radius: 42px; background: var(--phone); padding: 11px; box-shadow: var(--shadow); }
   .phone::before { content: ""; position: absolute; top: 18px; left: 50%; width: 30%; height: 18px; transform: translateX(-50%); background: #000; border-radius: 12px; z-index: 2; }
   .phone video, .phone img { width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 32px; display: block; background: #111; }
-  .sound { position: absolute; right: 22px; top: 46px; z-index: 3; border: 0; border-radius: 999px; padding: 7px 12px; font-weight: 700; font-size: 13px; background: rgba(0, 0, 0, 0.6); color: #fff; cursor: pointer; backdrop-filter: blur(6px); }
+  .sound { position: absolute; right: 18px; top: 18px; z-index: 3; width: 34px; height: 34px; padding: 0; border: 0; border-radius: 50%; display: grid; place-items: center; background: rgba(0, 0, 0, 0.55); color: #fff; cursor: pointer; backdrop-filter: blur(6px); }
+  .sound svg { width: 18px; height: 18px; }
+  .sound .on { display: none; }
+  .sound[aria-pressed="true"] .on { display: block; }
+  .sound[aria-pressed="true"] .off { display: none; }
+  .sound:focus-visible, .btn:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
   .hero .phone { animation: float 6s ease-in-out infinite; }
   @keyframes float { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-10px) rotate(-0.5deg); } }
 
@@ -148,7 +162,7 @@
       <div>
         <div class="eyebrow">Clips for B2B video podcasts</div>
         <h1 id="headline">Your episodes, cut into clips people actually watch</h1>
-        <p class="lead">You record a great conversation every week. I turn each episode into short clips for LinkedIn,
+        <p class="lead">You record a great conversation every week. We turn each episode into short clips for LinkedIn,
         YouTube Shorts and Reels. You send a link, you get ready-to-post clips back. No new tool to learn.</p>
         <div class="actions">
           <a class="btn" href="mailto:miroshart@outlook.com?subject=Free%20clips%20for%20my%20podcast">Get 3 free clips</a>
@@ -163,7 +177,7 @@
       <div>
         <div class="phone">
           <video src="samples/clip-01-vertical.mp4" poster="samples/clip-01-vertical.jpg" muted loop playsinline preload="metadata" data-autoplay aria-label="Sample clip: Authors' anger isn't at AI. It's at plutocrats."></video>
-          <button class="sound" type="button" aria-label="Turn sound on">Sound off</button>
+          <button class="sound" type="button" aria-label="Sound" aria-pressed="false"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m23 9-6 6"/><path d="m17 9 6 6"/></svg><svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg></button>
         </div>
       </div>
     </div>
@@ -201,21 +215,21 @@
         <div class="sample reveal">
           <div class="phone">
             <video src="samples/clip-01-vertical.mp4" poster="samples/clip-01-vertical.jpg" muted loop playsinline preload="none" data-autoplay aria-label="Sample clip 1"></video>
-            <button class="sound" type="button" aria-label="Turn sound on">Sound off</button>
+            <button class="sound" type="button" aria-label="Sound" aria-pressed="false"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m23 9-6 6"/><path d="m17 9 6 6"/></svg><svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg></button>
           </div>
           <p>Authors' anger isn't at AI</p>
         </div>
         <div class="sample reveal">
           <div class="phone">
             <video src="samples/clip-02-vertical.mp4" poster="samples/clip-02-vertical.jpg" muted loop playsinline preload="none" data-autoplay aria-label="Sample clip 2"></video>
-            <button class="sound" type="button" aria-label="Turn sound on">Sound off</button>
+            <button class="sound" type="button" aria-label="Sound" aria-pressed="false"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m23 9-6 6"/><path d="m17 9 6 6"/></svg><svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg></button>
           </div>
           <p>Knowledge isn't water</p>
         </div>
         <div class="sample reveal">
           <div class="phone">
             <video src="samples/clip-03-vertical.mp4" poster="samples/clip-03-vertical.jpg" muted loop playsinline preload="none" data-autoplay aria-label="Sample clip 3"></video>
-            <button class="sound" type="button" aria-label="Turn sound on">Sound off</button>
+            <button class="sound" type="button" aria-label="Sound" aria-pressed="false"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m23 9-6 6"/><path d="m17 9 6 6"/></svg><svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg></button>
           </div>
           <p>Why ban AI from public roads?</p>
         </div>
@@ -230,8 +244,8 @@
         <h2>Three steps, no new tool</h2>
       </div>
       <div class="steps">
-        <div class="step reveal"><h3>Send an episode</h3><p class="muted">A link to the video or the file. That's all I need.</p></div>
-        <div class="step reveal"><h3>I pick the moments</h3><p class="muted">AI helps me find candidates faster, but every clip is chosen and edited by me: a clear point, a strong first line, a clean ending.</p></div>
+        <div class="step reveal"><h3>Send an episode</h3><p class="muted">A link to the video or the file. That's all we need.</p></div>
+        <div class="step reveal"><h3>We pick the moments</h3><p class="muted">AI helps us find candidates faster, but every clip is chosen and edited by a person: a clear point, a strong first line, a clean ending.</p></div>
         <div class="step reveal"><h3>Clips in 48 hours</h3><p class="muted">Ready to post, with one round of changes included. Approve them with one reply.</p></div>
       </div>
       <ul class="features reveal">
@@ -248,7 +262,7 @@
       <div class="reveal">
         <div class="eyebrow">Start free</div>
         <h2>3 clips from one episode, free</h2>
-        <p class="muted">Pick one recent episode, or I suggest one. You get 3 clips in 48 hours. Use them as you like. If they're not useful, that's the end of it.</p>
+        <p class="muted">Pick one recent episode, or we suggest one. You get 3 clips in 48 hours. Use them as you like. If they're not useful, that's the end of it.</p>
       </div>
       <div class="plans">
         <div class="plan reveal">
@@ -268,8 +282,8 @@
         </div>
       </div>
       <div class="offer reveal">
-        <strong>Launch offer:</strong> for my first 3 clients, the first month of Clips is EUR 250 instead of EUR 500,
-        in exchange for a short testimonial and permission to show your clips as examples.
+        <strong>Founding clients:</strong> the first month of the Clips plan is EUR 250 instead of EUR 500.
+        In return, we'd like to show your clips as examples. Open to the first three shows.
       </div>
       <p class="muted small" style="margin-top: 12px">Monthly plans are month to month, cancel any time.</p>
     </div>
@@ -278,10 +292,10 @@
   <section class="band">
     <div class="wrap reveal">
       <div class="eyebrow">Fair questions</div>
-      <details><summary>Why not an auto-clipping tool?</summary><p>Tools find loud moments. They don't know your audience, so you still spend an hour picking, fixing captions and writing posts. That hour is what I take off you.</p></details>
-      <details><summary>Who owns the clips?</summary><p>You do. I use your episodes only to make your clips.</p></details>
-      <details><summary>What do you need from me?</summary><p>A link to each new episode, and your brand colours and logo once.</p></details>
-      <details><summary>Who is behind this?</summary><p>Artem Miroshnichenko, an engineer running a small studio in Paris.</p></details>
+      <details><summary>Why not an auto-clipping tool?</summary><p>Tools find loud moments. They don't know your audience, so you still spend an hour picking, fixing captions and writing posts. That hour is what we take off your plate.</p></details>
+      <details><summary>Who owns the clips?</summary><p>You do. We use your episodes only to make your clips.</p></details>
+      <details><summary>What do you need from us?</summary><p>A link to each new episode, and your brand colours and logo once.</p></details>
+      <details><summary>Who is behind this?</summary><p>Mirosh Labs is a small studio in Paris, run by Artem Miroshnichenko, an engineer.</p></details>
     </div>
   </section>
 
@@ -349,12 +363,11 @@
       button.addEventListener("click", function () {
         var turnOn = video.muted;
         videos.forEach(function (v) { v.muted = true; });
-        document.querySelectorAll(".sound").forEach(function (b) { b.textContent = "Sound off"; b.setAttribute("aria-label", "Turn sound on"); });
+        document.querySelectorAll(".sound").forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
         if (turnOn) {
           video.muted = false;
           video.play().catch(function () {});
-          button.textContent = "Sound on";
-          button.setAttribute("aria-label", "Turn sound off");
+          button.setAttribute("aria-pressed", "true");
         }
       });
     });
