@@ -170,7 +170,14 @@
   details p { margin: 10px 0 0; color: var(--muted); max-width: 64ch; }
   .cta-band { text-align: center; }
   .cta-band h2 { margin-left: auto; margin-right: auto; }
-  .cta-band .lead { color: var(--muted); max-width: 560px; margin: 0 auto 24px; font-size: 20px; }
+  .cta-band .lead { color: var(--muted); max-width: 560px; margin: 0 auto 28px; font-size: 20px; }
+  .contact { max-width: 560px; margin: 0 auto; }
+  .address { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 12px 12px 22px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+  .address .addr { font: 600 clamp(20px, 3.2vw, 26px)/1.2 var(--serif); text-align: left; white-space: nowrap; user-select: all; }
+  .address .copy { flex: none; min-width: 84px; justify-content: center; }
+  .open-label { font-size: 14px; color: var(--muted); margin: 20px 0 10px; }
+  .open { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
   footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
   footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 22px; justify-content: space-between; }
 
@@ -191,6 +198,8 @@
   }
   @media (max-width: 560px) {
     .plans { grid-template-columns: 1fr; }
+    .address { flex-direction: column; padding: 18px 16px 16px; }
+    .address .copy { width: 100%; }
   }
   @media (prefers-reduced-motion: reduce) {
     .timeline .seg, .timeline .scanner { animation: none; }
@@ -204,7 +213,7 @@
 <header>
   <div class="wrap">
     <a class="logo" href="#top">Mirosh <em>Labs</em></a>
-    <a class="btn small" href="mailto:miroshart@outlook.com?subject=Free%20clips%20for%20my%20podcast&amp;body=Show%20name%3A%20%0AEpisode%20link%3A%20%0ANames%20and%20terms%20to%20spell%20right%3A%20%0A">Get 3 free clips</a>
+    <a class="btn small" href="#start">Get 3 free clips</a>
   </div>
 </header>
 
@@ -217,10 +226,10 @@
         <p class="lead">You record a great conversation every week. We turn each episode into short clips for LinkedIn,
         YouTube Shorts and Reels. You send a link, you get ready-to-post clips back. No new tool to learn.</p>
         <div class="actions">
-          <a class="btn" href="mailto:miroshart@outlook.com?subject=Free%20clips%20for%20my%20podcast&amp;body=Show%20name%3A%20%0AEpisode%20link%3A%20%0ANames%20and%20terms%20to%20spell%20right%3A%20%0A">Get 3 free clips</a>
+          <a class="btn" href="#start">Get 3 free clips</a>
           <a class="btn ghost" href="#samples">See samples</a>
         </div>
-        <p class="hint">Opens your email app. Got an email from us? Just reply to it.</p>
+        <p class="hint">Got an email from us? Just reply to it.</p>
         <ul class="facts">
           <li>Back in 48 hours</li>
           <li>Word-by-word captions</li>
@@ -352,8 +361,8 @@
         </div>
       </div>
       <div class="after-plans">
-        <a class="btn" href="mailto:miroshart@outlook.com?subject=Free%20clips%20for%20my%20podcast&amp;body=Show%20name%3A%20%0AEpisode%20link%3A%20%0ANames%20and%20terms%20to%20spell%20right%3A%20%0A">Start with 3 free clips</a>
-        <p class="hint">Opens your email app. Got an email from us? Just reply to it.</p>
+        <a class="btn" href="#start">Start with 3 free clips</a>
+        <p class="hint">Got an email from us? Just reply to it.</p>
       </div>
       <div class="offer">
         <strong>Founding clients:</strong> the first month of the Clips plan is €250 instead of €500.
@@ -382,12 +391,24 @@
     </div>
   </section>
 
-  <section class="cta-band">
+  <section class="cta-band" id="start">
     <div class="wrap">
       <h2>Send one episode, see what comes back</h2>
-      <p class="lead">3 clips in 48 hours, free. No call needed.</p>
-      <a class="btn" href="mailto:miroshart@outlook.com?subject=Free%20clips%20for%20my%20podcast&amp;body=Show%20name%3A%20%0AEpisode%20link%3A%20%0ANames%20and%20terms%20to%20spell%20right%3A%20%0A">Get 3 free clips</a>
-      <p class="hint">Opens your email app. Got an email from us? Just reply to it.</p>
+      <p class="lead">3 clips in 48 hours, free. No call needed. Write to us with the show name and a link to one episode.</p>
+      <div class="contact">
+        <div class="address">
+          <span class="addr" id="contact-email">miroshart@outlook.com</span>
+          <button class="btn small copy" type="button" data-copy="contact-email">Copy</button>
+        </div>
+        <p class="open-label">or start an email in</p>
+        <div class="open">
+          <a class="btn ghost" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=miroshart%40outlook.com&amp;su=Free%20clips%20for%20my%20podcast&amp;body=Show%20name%3A%20%0AEpisode%20link%3A%20%0ANames%20and%20terms%20to%20spell%20right%3A%20%0A" target="_blank" rel="noopener">Gmail</a>
+          <a class="btn ghost" href="https://outlook.office.com/mail/deeplink/compose?to=miroshart%40outlook.com&amp;subject=Free%20clips%20for%20my%20podcast&amp;body=Show%20name%3A%20%0AEpisode%20link%3A%20%0ANames%20and%20terms%20to%20spell%20right%3A%20%0A" target="_blank" rel="noopener">Outlook</a>
+          <a class="btn ghost" href="mailto:miroshart@outlook.com?subject=Free%20clips%20for%20my%20podcast&amp;body=Show%20name%3A%20%0AEpisode%20link%3A%20%0ANames%20and%20terms%20to%20spell%20right%3A%20%0A">Mail app</a>
+        </div>
+        <p class="hint">Got an email from us? Just reply to it.</p>
+        <span class="sr-only" id="copy-status" aria-live="polite"></span>
+      </div>
     </div>
   </section>
 </main>
@@ -514,6 +535,34 @@
     document.querySelectorAll(".timeline").forEach(function (timeline) { timelineWatch.observe(timeline); });
 
     document.addEventListener("visibilitychange", check);
+
+    // Copy the address; where the clipboard is not available, select it so it can be copied by hand.
+    document.querySelectorAll("[data-copy]").forEach(function (button) {
+      var target = document.getElementById(button.getAttribute("data-copy"));
+      var status = document.getElementById("copy-status");
+      var timer = null;
+      function show(label, message) {
+        button.textContent = label;
+        status.textContent = message;
+        window.clearTimeout(timer);
+        timer = window.setTimeout(function () { button.textContent = "Copy"; }, 2000);
+      }
+      function selectAddress() {
+        var range = document.createRange();
+        range.selectNodeContents(target);
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        show("Selected", "Address selected, copy it with your keyboard.");
+      }
+      button.addEventListener("click", function () {
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(target.textContent.trim()).then(function () { show("Copied", "Address copied."); }, selectAddress);
+        } else {
+          selectAddress();
+        }
+      });
+    });
   })();
 </script>
 </body>
