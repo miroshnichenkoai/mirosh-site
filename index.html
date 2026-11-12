@@ -112,8 +112,6 @@
   .sound[aria-pressed="true"]:hover { background: #FFA37E; }
   .sound[aria-pressed="true"] .on { display: block; }
   .sound[aria-pressed="true"] .off { display: none; }
-  .hero .phone { animation: float 7s ease-in-out infinite; }
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
   /* Episode to clips */
   .band { background: var(--paper-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -123,6 +121,7 @@
   .timeline .scanner { position: absolute; inset: 0; animation: scan 6s linear infinite; pointer-events: none; }
   .timeline .scanner::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--ink); }
   @keyframes scan { from { transform: translateX(0); } to { transform: translateX(100%); } }
+  .timeline:not(.running) .seg, .timeline:not(.running) .scanner { animation-play-state: paused; }
   .scale { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
   .moments { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
   .moment { background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 10px; padding: 14px 16px; font-family: var(--serif); font-weight: 600; font-size: 18px; line-height: 1.3; }
@@ -175,9 +174,6 @@
   footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
   footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 22px; justify-content: space-between; }
 
-  /* Reveal on scroll */
-  .js .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .js .reveal.in { opacity: 1; transform: none; }
 
   @media (max-width: 1040px) {
     .plans { grid-template-columns: repeat(2, 1fr); }
@@ -197,10 +193,9 @@
     .plans { grid-template-columns: 1fr; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .hero .phone, .timeline .seg, .timeline .scanner { animation: none; }
+    .timeline .seg, .timeline .scanner { animation: none; }
     .timeline .seg { opacity: 1; transform: none; }
     .timeline .scanner { display: none; }
-    .js .reveal { opacity: 1; transform: none; transition: none; }
     html { scroll-behavior: auto; }
   }
 </style>
@@ -243,7 +238,7 @@
   </section>
 
   <section class="band">
-    <div class="wrap reveal">
+    <div class="wrap">
       <span class="eyebrow"><b>01 /</b>From one episode</span>
       <h2>An hour of conversation, three clips worth sharing</h2>
       <p class="muted measure">The sample panel runs 61 minutes. These three moments make one clear point each, start with a strong line and end cleanly.</p>
@@ -264,13 +259,13 @@
 
   <section id="samples">
     <div class="wrap">
-      <div class="reveal">
+      <div>
         <span class="eyebrow"><b>02 /</b>Samples</span>
         <h2>What you get back</h2>
         <p class="muted measure">Made from a public panel recording, not a client project. The word being said lights up as it is spoken. Tap a clip to play or pause it.</p>
       </div>
       <div class="samples">
-        <figure class="sample reveal">
+        <figure class="sample">
           <div class="phone">
             <video src="samples/clip-01-vertical.mp4" poster="samples/clip-01-vertical.jpg" muted loop playsinline preload="none" data-autoplay aria-label="Sample clip 1: Authors' anger isn't at AI. It's at plutocrats."></video>
             <button class="play" type="button" data-name="clip 1" aria-label="Play clip 1"><svg class="play-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg><svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg></button>
@@ -278,7 +273,7 @@
           </div>
           <figcaption>Authors' anger isn't at AI <span>36 seconds</span></figcaption>
         </figure>
-        <figure class="sample reveal">
+        <figure class="sample">
           <div class="phone">
             <video src="samples/clip-02-vertical.mp4" poster="samples/clip-02-vertical.jpg" muted loop playsinline preload="none" data-autoplay aria-label="Sample clip 2: Knowledge isn't water: extraction vs. openness."></video>
             <button class="play" type="button" data-name="clip 2" aria-label="Play clip 2"><svg class="play-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg><svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg></button>
@@ -286,7 +281,7 @@
           </div>
           <figcaption>Knowledge isn't water <span>70 seconds</span></figcaption>
         </figure>
-        <figure class="sample reveal">
+        <figure class="sample">
           <div class="phone">
             <video src="samples/clip-03-vertical.mp4" poster="samples/clip-03-vertical.jpg" muted loop playsinline preload="none" data-autoplay aria-label="Sample clip 3: We don't ban FedEx from public roads. Why ban AI?"></video>
             <button class="play" type="button" data-name="clip 3" aria-label="Play clip 3"><svg class="play-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg><svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg></button>
@@ -304,16 +299,16 @@
 
   <section class="band">
     <div class="wrap">
-      <div class="reveal">
+      <div>
         <span class="eyebrow"><b>03 /</b>How it works</span>
         <h2>Three steps, no new tool</h2>
       </div>
       <div class="steps">
-        <div class="step reveal"><h3>Send an episode</h3><p class="muted">A link to the video or the file. That's all we need.</p></div>
-        <div class="step reveal"><h3>We pick the moments</h3><p class="muted">AI helps us find candidates faster, but every clip is chosen and edited by a person: a clear point, a strong first line, a clean ending.</p></div>
-        <div class="step reveal"><h3>Clips in 48 hours</h3><p class="muted">Ready to post, with one round of changes included. Approve them with one reply.</p></div>
+        <div class="step"><h3>Send an episode</h3><p class="muted">A link to the video or the file. That's all we need.</p></div>
+        <div class="step"><h3>We pick the moments</h3><p class="muted">AI helps us find candidates faster, but every clip is chosen and edited by a person: a clear point, a strong first line, a clean ending.</p></div>
+        <div class="step"><h3>Clips in 48 hours</h3><p class="muted">Ready to post, with one round of changes included. Approve them with one reply.</p></div>
       </div>
-      <ul class="features reveal">
+      <ul class="features">
         <li>Word-by-word captions, checked by hand for names and terms</li>
         <li>A hook title on every clip</li>
         <li>Vertical 9:16 for Shorts and Reels, square 1:1 for LinkedIn</li>
@@ -324,43 +319,43 @@
 
   <section id="pricing">
     <div class="wrap">
-      <div class="reveal">
+      <div>
         <span class="eyebrow"><b>04 /</b>Pricing</span>
         <h2>Start free, then pay per episode or monthly</h2>
         <p class="muted measure">Pick one recent episode, or we suggest one. You get 3 clips in 48 hours. Use them as you like. If they're not useful, that's the end of it.</p>
       </div>
       <div class="plans">
-        <div class="plan reveal">
+        <div class="plan">
           <h3>Free pilot</h3>
           <div class="price">€0</div>
           <p class="per">once per show</p>
           <ul><li>3 clips from one episode</li><li>Back in 48 hours</li><li>No call, no payment details</li></ul>
         </div>
-        <div class="plan reveal">
+        <div class="plan">
           <h3>One episode</h3>
           <div class="price">€150 <span>/ episode</span></div>
           <p class="per">€37.50 per clip</p>
           <ul><li>4 clips from one episode</li><li>Vertical and square, with captions</li><li>No subscription</li></ul>
         </div>
-        <div class="plan featured reveal">
+        <div class="plan featured">
           <span class="tag">Best value for weekly shows</span>
           <h3>Clips</h3>
           <div class="price">€500 <span>/ month</span></div>
           <p class="per">about €31 per clip</p>
           <ul><li>Up to 4 episodes a month</li><li>4 clips per episode</li><li>Vertical and square, with captions</li></ul>
         </div>
-        <div class="plan reveal">
+        <div class="plan">
           <h3>Clips + LinkedIn</h3>
           <div class="price">€800 <span>/ month</span></div>
           <p class="per">about €33 per clip, posts included</p>
           <ul><li>Up to 4 episodes a month</li><li>6 clips per episode</li><li>A ready LinkedIn post for each clip</li></ul>
         </div>
       </div>
-      <div class="after-plans reveal">
+      <div class="after-plans">
         <a class="btn" href="mailto:miroshart@outlook.com?subject=Free%20clips%20for%20my%20podcast&amp;body=Show%20name%3A%20%0AEpisode%20link%3A%20%0ANames%20and%20terms%20to%20spell%20right%3A%20%0A">Start with 3 free clips</a>
         <p class="hint">Opens your email app. Got an email from us? Just reply to it.</p>
       </div>
-      <div class="offer reveal">
+      <div class="offer">
         <strong>Founding clients:</strong> the first month of the Clips plan is €250 instead of €500.
         In return, we'd like to show your clips as examples. Open to the first three shows.
       </div>
@@ -369,7 +364,7 @@
   </section>
 
   <section class="band">
-    <div class="wrap reveal">
+    <div class="wrap">
       <span class="eyebrow"><b>05 /</b>Questions</span>
       <h2>Fair questions</h2>
       <div class="faq">
@@ -388,7 +383,7 @@
   </section>
 
   <section class="cta-band">
-    <div class="wrap reveal">
+    <div class="wrap">
       <h2>Send one episode, see what comes back</h2>
       <p class="lead">3 clips in 48 hours, free. No call needed.</p>
       <a class="btn" href="mailto:miroshart@outlook.com?subject=Free%20clips%20for%20my%20podcast&amp;body=Show%20name%3A%20%0AEpisode%20link%3A%20%0ANames%20and%20terms%20to%20spell%20right%3A%20%0A">Get 3 free clips</a>
@@ -407,7 +402,6 @@
 <script>
   (function () {
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    document.documentElement.classList.add("js");
 
     // Headline words light up one by one, once, like the captions in the clips; the last word stays marked.
     var headline = document.getElementById("headline");
@@ -435,42 +429,28 @@
       }
     }
 
-    // Share of an element inside the viewport, both axes: the mobile sample strip scrolls sideways.
-    function visibleShare(el) {
-      var r = el.getBoundingClientRect();
-      var vw = window.innerWidth || document.documentElement.clientWidth;
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      var w = Math.min(r.right, vw) - Math.max(r.left, 0);
-      var h = Math.min(r.bottom, vh) - Math.max(r.top, 0);
-      if (r.width === 0 || r.height === 0 || w <= 0 || h <= 0) return 0;
-      return (w * h) / (r.width * r.height);
-    }
-
-    var reveals = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
     var videos = Array.prototype.slice.call(document.querySelectorAll("video[data-autoplay]"));
     var held = [];       // videos the visitor paused; they stay paused until clicked again
     var chosen = null;   // video the visitor started or turned the sound on for
+    var shares = videos.map(function () { return 0; });  // visible share of each video, reported by IntersectionObserver
 
     function isHeld(video) { return held.indexOf(video) !== -1; }
     function setHeld(video, value) {
       held = held.filter(function (v) { return v !== video; });
       if (value) held.push(video);
     }
+    function shareOf(video) { return shares[videos.indexOf(video)]; }
 
     // Only one clip plays: the one the visitor chose while it is on screen, otherwise the most visible one.
     function check() {
-      reveals = reveals.filter(function (el) {
-        if (visibleShare(el) > 0.1 || el.getBoundingClientRect().top < 0) { el.classList.add("in"); return false; }
-        return true;
-      });
       var playing = null;
-      if (chosen !== null && !isHeld(chosen) && visibleShare(chosen) >= 0.3) {
+      if (chosen !== null && !isHeld(chosen) && shareOf(chosen) >= 0.3) {
         playing = chosen;
       } else if (!reduce) {
         var best = 0;
         videos.forEach(function (v) {
           if (isHeld(v)) return;
-          var share = visibleShare(v);
+          var share = shareOf(v);
           if (share >= 0.5 && share > best) { best = share; playing = v; }
         });
       }
@@ -517,20 +497,23 @@
       });
     });
 
-    // Scroll fires many times per frame; measure at most once per frame.
-    var scheduled = false;
-    function schedule() {
-      if (scheduled) return;
-      scheduled = true;
-      window.requestAnimationFrame(function () { scheduled = false; check(); });
-    }
+    // The browser reports visibility itself, so nothing runs on scroll. Fine steps let the most visible clip win;
+    // the share accounts for clipping by the sideways sample strip on phones.
+    var steps = [];
+    for (var i = 0; i <= 20; i += 1) steps.push(i / 20);
+    var videoWatch = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) { shares[videos.indexOf(entry.target)] = entry.isIntersecting ? entry.intersectionRatio : 0; });
+      check();
+    }, { threshold: steps });
+    videos.forEach(function (v) { videoWatch.observe(v); });
 
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    window.addEventListener("load", schedule);
-    document.addEventListener("visibilitychange", schedule);
-    document.querySelectorAll(".samples").forEach(function (strip) { strip.addEventListener("scroll", schedule, { passive: true }); });
-    check();
+    // The episode timeline animates only while it is on screen.
+    var timelineWatch = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) { entry.target.classList.toggle("running", entry.isIntersecting); });
+    });
+    document.querySelectorAll(".timeline").forEach(function (timeline) { timelineWatch.observe(timeline); });
+
+    document.addEventListener("visibilitychange", check);
   })();
 </script>
 </body>
