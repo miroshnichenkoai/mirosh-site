@@ -105,10 +105,11 @@
   .phone:not(.paused) .play .pause-icon { display: block; }
   .play:hover { background: #FF8A5B; color: #17140F; }
   @media (hover: hover) { .phone:hover .play { opacity: 1; } }
-  .sound { position: absolute; right: 20px; top: 20px; z-index: 3; width: 34px; height: 34px; padding: 0; border: 0; border-radius: 50%; display: grid; place-items: center; background: rgba(29, 26, 22, 0.6); color: #F3EEE4; cursor: pointer; }
+  .sound { position: absolute; right: 20px; top: 20px; z-index: 3; width: 34px; height: 34px; padding: 0; border: 0; border-radius: 50%; display: grid; place-items: center; background: rgba(29, 26, 22, 0.6); color: #F3EEE4; cursor: pointer; transition: background-color 0.15s ease, color 0.15s ease; }
   .sound svg { width: 18px; height: 18px; }
   .sound .on { display: none; }
-  .sound[aria-pressed="true"] { background: #FF8A5B; color: #17140F; }
+  .sound[aria-pressed="true"], .sound:hover { background: #FF8A5B; color: #17140F; }
+  .sound[aria-pressed="true"]:hover { background: #FFA37E; }
   .sound[aria-pressed="true"] .on { display: block; }
   .sound[aria-pressed="true"] .off { display: none; }
   .hero .phone { animation: float 7s ease-in-out infinite; }
